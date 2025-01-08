@@ -43,9 +43,9 @@
 
     /** If this user follows the given name, returns true; otherwise returns false. */
     public boolean follows(String name) {
-        for(int i=0; i<fCount;i++)
+        for(int i=0; i<fCount; i++) 
         {
-            if(this.follows[i].equals(name))
+            if(this.follows[i].equals(name)) 
             {
                 return true;
             }
@@ -77,25 +77,33 @@
     /** Removes the given name from the follows list of this user. If successful, returns true.
      *  If the name is not in the list, does nothing and returns false. */
     public boolean removeFollowee(String name) {
-        int indexName = 0;
-        for(int i=0; i<fCount;i++)
+        int indexName = -1;
+    
+        for (int i = 0; i < fCount; i++) 
         {
-            if(this.follows[i].equals(name))
+            if (this.follows[i] != null && this.follows[i].equals(name))
             {
-                this.follows[i]=null;
-                indexName = i;
+                indexName = i; 
+                break;
             }
-        }
-        if(this.follows[indexName] == null)
-        {
-            for(int i=indexName; i<fCount-1; i++)
-            {
-                this.follows[i] = this.follows[i+1];
-            }
-            return true;
         }
         
-        return false;
+        if (indexName == -1) 
+        {
+            return false;
+        }
+    
+
+        this.follows[indexName] = null;
+        
+        for (int i = indexName; i < fCount - 1; i++) 
+        {
+            this.follows[i] = this.follows[i + 1];
+        }
+    
+        this.follows[fCount - 1] = null;  
+        fCount--;  
+        return true;
     }
 
     /** Counts the number of users that both this user and the other user follow.
