@@ -55,25 +55,21 @@
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
-        if(fCount == maxfCount || this.follows(name.toLowerCase()) == true) {
+        if (fCount == maxfCount || followsUpper(name)) {  // Avoid duplicates
             return false;
-        } else {
-            this.follows[fCount] = name;
-            fCount++;
         }
+        this.follows[fCount] = name;
+        fCount++;
         return true;
+    }
 
-      /* if(fCount == maxfCount || this.follows(name) == true)
-        {
-            return false;
+    public boolean followsUpper(String name) {
+        for (int i = 0; i < fCount; i++) {
+            if (this.follows[i].equalsIgnoreCase(name)) {  // Compare ignoring case
+                return true;
+            }
         }
-        else
-        {
-            this.follows[fCount] = name;
-            fCount++;
-        }
-        return true;
-        */
+        return false;
     }
 
     /** Removes the given name from the follows list of this user. If successful, returns true.
@@ -104,13 +100,16 @@
     /*  Notice: This is the size of the intersection of the two follows lists. */
     public int countMutual(User other) {
         int countBoth = 0;
+        boolean[] checked = new boolean[this.fCount]; 
+    
         for (int i = 0; i < this.fCount; i++) 
         {
             for (int j = 0; j < other.getfCount(); j++) 
             {
-                if (this.follows[i].equals(other.getfFollows()[j])) 
+                if (this.follows[i].equals(other.getfFollows()[j]) && !checked[i]) 
                 {
                     countBoth++;
+                    checked[i] = true;  
                     break;  
                 }
             }
@@ -122,12 +121,23 @@
     /** Checks is this user is a friend of the other user.
      *  (if two users follow each other, they are said to be "friends.") */
     public boolean isFriendOf(User other) {
-        if (this.follows == null || other.follows == null) {
+        if (this.follows == null || other.follows == null) 
+        {
             return false;
         }
-        
-        if (other.follows(this.getName()) && this.follows(other.getName())) {
-            return true;
+    
+        for (int i = 0; i < this.fCount; i++) 
+        {
+            if (this.follows[i] != null && this.follows[i].equals(other.getName())) 
+            {
+                for (int j = 0; j < other.getfCount(); j++) 
+                {
+                    if (other.getfFollows()[j] != null && other.getfFollows()[j].equals(this.getName())) 
+                    {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
