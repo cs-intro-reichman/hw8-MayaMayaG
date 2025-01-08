@@ -103,7 +103,8 @@ public class Network {
         for (int i = 0; i < userCount; i++) 
         {
             User other = users[i];
-            if (other != user) {
+            if (other != user) 
+            {
                 int mutualFollowersCount = user.countMutual(other);
                 if (mutualFollowersCount > maxMutualFollowers) 
                 {
