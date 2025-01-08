@@ -176,14 +176,14 @@ public class TestHandler {
 
     public boolean followsTest5(){
         User alice = new User("Alice");
-        String expected = "false";
+        String expected = "true";
         String actual = "";
         try {
-            actual += alice.follows("Foo");
+            actual += (alice.addFollowee("Foo") && !alice.addFollowee("foo") && alice.getfCount() == 1 && alice.follows("Foo"));
         } catch (Exception e) {
             actual = TesterMessagesEnum.ERROR + e.getMessage();
         }
-        return this.tester.test("Alice getting started = false, checks follows Foo", expected, actual);
+        return this.tester.test("Alice, getting started = false, try to add Followee Foo and foo", expected, actual);
     }
 
     public boolean followsTest6(){
