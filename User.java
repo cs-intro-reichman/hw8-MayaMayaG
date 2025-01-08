@@ -55,7 +55,15 @@
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
-        if(fCount == maxfCount || this.follows(name) == true)
+        if(fCount == maxfCount || this.follows(name.toLowerCase()) == true) {
+            return false;
+        } else {
+            this.follows[fCount] = name;
+            fCount++;
+        }
+        return true;
+
+      /* if(fCount == maxfCount || this.follows(name) == true)
         {
             return false;
         }
@@ -65,6 +73,7 @@
             fCount++;
         }
         return true;
+        */
     }
 
     /** Removes the given name from the follows list of this user. If successful, returns true.
@@ -95,24 +104,29 @@
     /*  Notice: This is the size of the intersection of the two follows lists. */
     public int countMutual(User other) {
         int countBoth = 0;
-         for(int i=0; i < this.follows.length; i++)
-         {
-            for(int j=0; j < this.follows.length; j++)
+        for (int i = 0; i < this.fCount; i++) 
+        {
+            for (int j = 0; j < other.getfCount(); j++) 
             {
-                if(this.follows[i] == other.follows[j])
+                if (this.follows[i].equals(other.getfFollows()[j])) 
                 {
                     countBoth++;
+                    break;  
                 }
             }
-         }
+        }
+    
         return countBoth;
     }
 
     /** Checks is this user is a friend of the other user.
      *  (if two users follow each other, they are said to be "friends.") */
     public boolean isFriendOf(User other) {
-        if(other.follows(this.getName()) == true && this.follows(other.getName()) == true)
-        {
+        if (this.follows == null || other.follows == null) {
+            return false;
+        }
+        
+        if (other.follows(this.getName()) && this.follows(other.getName())) {
             return true;
         }
         return false;
@@ -126,3 +140,4 @@
         return ans;
     }
 }
+

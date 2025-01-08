@@ -68,10 +68,22 @@ public class Network {
     public boolean addFollowee(String name1, String name2) {
         User user1 = getUser(name1);
         User user2 = getUser(name2);
+    
         if (user1 == null || user2 == null) 
         {
-            return false;
+            return false; 
         }
+        
+        if (name1.equals(name2)) 
+        {
+            return false; 
+        }
+        
+        if (user1.follows(name2)) 
+        {
+            return false; 
+        }
+    
         user1.addFollowee(name2);
         return true;
     }
@@ -82,15 +94,16 @@ public class Network {
         User user = getUser(name);
         if (user == null) 
         {
-            return null; 
+            return null;
         }
+
         User recommendedUser = null;
         int maxMutualFollowers = -1;
-        for (int i = 0; i < userCount; i++)
+
+        for (int i = 0; i < userCount; i++) 
         {
             User other = users[i];
-            if (other != user) 
-            {
+            if (other != user) {
                 int mutualFollowersCount = user.countMutual(other);
                 if (mutualFollowersCount > maxMutualFollowers) 
                 {
@@ -99,7 +112,8 @@ public class Network {
                 }
             }
         }
-        if(recommendedUser != null)
+
+        if (recommendedUser != null) 
         {
             return recommendedUser.getName();
         }
@@ -166,10 +180,20 @@ public class Network {
 
     // Returns a textual description of all the users in this network, and who they follow.
     public String toString() {
-        String ans = "";
-        for(int i=0; i< userCount; i++)
+        String ans = "Network:\n";  
+        if (userCount == 0) 
+        {  
+            return ans;
+        }
+
+        for (int i = 0; i < userCount; i++) 
         {
-           ans+=users[i].toString() + "\n";
+            ans += users[i].toString();  
+            if (i < userCount - 1) 
+            {
+                ans += " ";  
+            }
+            ans += "\n";  
         }
         
         return ans;
