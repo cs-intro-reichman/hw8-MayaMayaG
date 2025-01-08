@@ -190,12 +190,11 @@ public class Network {
         {
             ans += users[i].toString();  
             if (i < userCount - 1) 
-            {
-                ans += "";  
+            {  
+                ans += "\n";  
             }
-            ans += "\n";  
         }
-        
+
         return ans;
     }
 }

@@ -64,8 +64,10 @@
     }
 
     public boolean followsUpper(String name) {
-        for (int i = 0; i < fCount; i++) {
-            if (this.follows[i].equalsIgnoreCase(name)) {  // Compare ignoring case
+        for (int i = 0; i < fCount; i++) 
+        {
+            if (this.follows[i] != null && this.follows[i].equalsIgnoreCase(name)) 
+            {  
                 return true;
             }
         }
